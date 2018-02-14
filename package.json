@@ -1,0 +1,21 @@
+{
+  "name": "jenkins-switch",
+  "version": "1.0.0",
+  "bin": "./jenkins-switch.js",
+  "description": "Switches jenkins builds to your current git branch",
+  "main": "jenkins-switch.js",
+  "scripts": {
+  },
+  "keywords": [
+    "jenkins",
+    "build",
+    "branch"
+  ],
+  "author": "steveadoo32@gmail.com",
+  "license": "MIT",
+  "dependencies":{
+    "argparse": "1.0.9",
+    "data-store": "1.0.0",
+    "jenkins-api": "0.3.1"
+  }
+}
