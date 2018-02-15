@@ -1,6 +1,6 @@
 {
   "name": "jenkins-switch",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "bin": "./jenkins-switch.js",
   "description": "Switches jenkins builds to your current git branch",
   "main": "jenkins-switch.js",
