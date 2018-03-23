@@ -34,7 +34,9 @@ function initializeDirectory(identifier, store, args) {
                 username: args.username,
                 token: args.token,
                 server: args.server,
-                jobs: []
+                jobs: {
+                    "default": []
+                }
             });
             resolve();
         });

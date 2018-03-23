@@ -20,11 +20,24 @@ function switchBranch(identifier, store, args, existingSettings, jenkins) {
 
   console.log("");
 
-  var jobs = existingSettings.jobs;
+  var jobs = (existingSettings.jobs = existingSettings.jobs || {});
+
+  // Older version when we didn't support configurations
+  if (Array.isArray(jobs)) {
+    jobs = existingSettings.jobs = {
+      default: jobs
+    };
+  }
+
+  if (!(args.config in jobs)) 
+    jobs[args.config] = [];
+
+  var configurationJobs = jobs[args.config];
+
   var promises = [];
 
-  for (var i = 0; i < jobs.length; i++) {
-    let job = jobs[i];
+  for (var i = 0; i < configurationJobs.length; i++) {
+    let job = configurationJobs[i];
     promises.push(
       new Promise(resolve => {
         jenkins.update_config(
@@ -34,7 +47,7 @@ function switchBranch(identifier, store, args, existingSettings, jenkins) {
               config.indexOf("hudson.plugins.git.BranchSpec") != -1;
 
             if (!foundBranchSpec) {
-              throw new Error(`Invalid config for job.`);
+              throw new Error(`Invalid xml config for job.`);
             }
 
             return config.replace(
@@ -47,7 +60,7 @@ function switchBranch(identifier, store, args, existingSettings, jenkins) {
           function(err, data) {
             // if no error, job was copied
             if (err) {
-              console.log(`Error updating config for job ${job}.`);
+              console.log(`Error updating xml config for job ${job}.`);
               return console.log(err);
             }
             console.log(`Updated job ${job} successfully.`);

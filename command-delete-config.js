@@ -7,7 +7,7 @@ module.exports = function(identifier, store, args, existingSettings, jenkins) {
 
 function addJob(identifier, store, args, existingSettings, jenkins) {
   console.log("");
-  console.log(`Removing job ${args.name} from config ${args.config}...`);
+  console.log(`Deleting configuration config ${args.config}...`);
 
   var jobs = (existingSettings.jobs = existingSettings.jobs || {});
 
@@ -21,16 +21,9 @@ function addJob(identifier, store, args, existingSettings, jenkins) {
   if (!(args.config in jobs)) 
     jobs[args.config] = [];
 
-  var configurationJobs = jobs[args.config];
+  delete jobs[args.config];
 
-  var index = configurationJobs.findIndex(j => j == args.name);
-  if (index == -1) {
-    console.log(`Job ${args.name} does not exist in configuration ${args.config}.`);
-    return;
-  }
-
-  configurationJobs.splice(index, 1);
   store.set(identifier, existingSettings);
 
-  console.log(`Removed job ${args.name} successfully from configuration ${args.config}.`);
+  console.log(`Deleted configuration ${args.config}.`);
 }

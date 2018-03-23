@@ -7,13 +7,24 @@ module.exports = function(identifier, store, args, existingSettings, jenkins) {
 
 function addJob(identifier, store, args, existingSettings, jenkins) {
   console.log("");
-  console.log(`Adding job ${args.name}...`);
-  console.log("");
+  console.log(`Adding job ${args.name} to configuration ${args.config}...`);
 
-  var jobs = (existingSettings.jobs = existingSettings.jobs || []);
+  var jobs = (existingSettings.jobs = existingSettings.jobs || {});
 
-  if (jobs.find(j => j == args.name)) {
-    console.log(`Job ${args.name} already exists.`);
+  // Older version when we didn't support configurations
+  if (Array.isArray(jobs)) {
+    jobs = existingSettings.jobs = {
+        "default": jobs
+    }
+  }
+
+  if (!(args.config in jobs))
+    jobs[args.config] = [];
+
+  var configurationJobs = jobs[args.config];
+
+  if (configurationJobs.find(j => j == args.name)) {
+    console.log(`Job ${args.name} already exists in configuration ${args.config}.`);
     return;
   }
 
@@ -29,9 +40,9 @@ function addJob(identifier, store, args, existingSettings, jenkins) {
                 console.log("Invalid job(could not find a branchspec).");
                 return;
             }
-            jobs.push(args.name);
+            configurationJobs.push(args.name);
             store.set(identifier, existingSettings);
-            console.log(`Added job ${args.name} successfully.`);
+            console.log(`Added job ${args.name} to configuration ${args.config} successfully.`);
         });
     });
 }

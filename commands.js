@@ -48,6 +48,13 @@ module.exports = [
                     help: "The job name"
                 },
                 ask: "Enter the job name"
+            },
+            config: {
+                switches: [ "-c", "--config" ],
+                options: {
+                    defaultValue: "default",
+                    help: "The configuration"
+                }
             }
         }
     },
@@ -62,6 +69,13 @@ module.exports = [
                     help: "The job name"
                 },
                 ask: "Enter the job name"
+            },
+            config: {
+                switches: [ "-c", "--config" ],
+                options: {
+                    defaultValue: "default",
+                    help: "The configuration"
+                }
             }
         }
     },
@@ -77,7 +91,47 @@ module.exports = [
                     defaultValue: false,
                     help: "Build the job?"
                 }
+            },
+            config: {
+                switches: [ "-c", "--config" ],
+                options: {
+                    defaultValue: "default",
+                    help: "The configuration"
+                }
             }
+        }
+    },
+    {
+        command: "list-jobs",
+        requireInit: true,
+        arguments: {
+            config: {
+                switches: [ "-c", "--config" ],
+                options: {
+                    defaultValue: "default",
+                    help: "The configuration"
+                }
+            }
+        }
+    },
+    {
+        command: "delete-config",
+        requireInit: true,
+        arguments: {
+            config: {
+                switches: [ "-c", "--config" ],
+                options: {
+                    defaultValue: null,
+                    help: "The configuration"
+                },
+                ask: "Enter the configuration to delete"
+            }
+        }
+    },
+    {
+        command: "list-configs",
+        requireInit: true,
+        arguments: {
         }
     }
 ]
